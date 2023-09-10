@@ -1,0 +1,99 @@
+;; inspired by:
+;; https://github.com/seancorfield/dot-clojure
+;; copyright (c) 2018-2023 sean corfield, all rights reserved
+;;
+;; https://github.com/practicalli/clojure-cli-config
+
+{:mvn/repos
+ {"sonatype" {:url "https://oss.sonatype.org/content/repositories/snapshots/"}}
+ :aliases
+ {
+  ;; Deploy to Clojars
+  ;; https://github.com/slipset/deps-deploy
+  ;; 1. Set envs: CLOJARS_USERNAME, CLOJARS_PASSWORD
+  ;; 2. Create `pom.xml` with: clj -Spom
+  ;; 3. Generate JAR file
+  ;; 4. Deploy to Clojars with:
+  ;; clj -X:deploy :artifact '"my-lib.jar"'
+  :deploy {:extra-deps {slipset/deps-deploy {:mvn/version "RELEASE"}}
+           :exec-fn deps-deploy.deps-deploy/deploy
+           :exec-args {:installer :remote
+                       :sign-releases? true
+                       ;; Select a certain key if needed
+                       ;; gpg --list-secret-keys --with-subkey-fingerprints
+                       ;; :sign-key-id "C9E0916F64920CAE513CE3283BAB159D886263E1"
+                       }}
+
+  ;; Check syntax and warn on reflection
+  ;; lein check alternative for clj tools
+  ;; https://github.com/athos/clj-check
+  ;; clj -M:check
+  :check {:extra-deps {io.github.athos/clj-check
+                       {:git/tag "0.1.0" :git/sha "0ca84df"}}
+          :main-opts ["-m" "clj-check.check"]}
+
+
+  ;; Linter
+  ;; https://github.com/jonase/eastwood
+  :eastwood {:extra-deps {jonase/eastwood {:mvn/version "RELEASE"}}
+             :main-opts ["-m" "eastwood.lint" "{:source-paths,[\"src\"],:test-paths,[\"test\"]}"]}
+
+  ;; Testing defaults (to be overriden by the project's deps.edn)
+  ;; https://github.com/clojure/test.check
+  ;; https://github.com/cognitect-labs/test-runner
+  ;; clj -X:test:runner
+  :test {:extra-paths ["test" "src/test/clojure"]
+         :extra-deps {org.clojure/test.check {:mvn/version "RELEASE"}}}
+
+  :runner {:extra-deps {io.github.cognitect-labs/test-runner
+                        {:git/tag "v0.5.1" :git/sha "dfb30dd"}}
+           :exec-fn cognitect.test-runner.api/test
+           :exec-args {:dirs ["test" "src/test/clojure"]}}
+
+  ;; Data exploration
+
+  ;; Portal
+  ;; https://github.com/djblue/portal
+  :portal
+  {:extra-deps {djblue/portal {:mvn/version "RELEASE"}}}
+
+  ;; REPL
+
+  ;; precompiled code on the classpath:
+  :classes {:extra-paths ["classes"]}
+
+  ;; start a Socket REPL on port 50555
+  :socket {:jvm-opts ["-Dclojure.server.repl={:address,\"0.0.0.0\",:port,50555,:accept,clojure.core.server/repl}"]}
+
+  ;; Rebel
+  ;; https://github.com/bhauman/rebel-readline
+  ;; clj -M:rebel
+  ;; clj -M:rebel:classes:socket:portal
+  :rebel {:extra-deps {com.bhauman/rebel-readline {:mvn/version "RELEASE"}}
+          :main-opts ["-m" "rebel-readline.main"]}
+
+  ;; nREPL
+  ;; https://github.com/nrepl/nrepl
+  :nrepl {:extra-deps {nrepl/nrepl {:mvn/version "RELEASE"}}
+          :main-opts ["-m" "nrepl.cmdline"]}
+
+  ;; nREPL for Emacs CIDER
+  :cider-nrepl {:extra-deps {cider/cider-nrepl {:mvn/version "RELEASE"}}
+                :main-opts ["-m" "nrepl.cmdline" "--middleware" "[cider.nrepl/cider-middleware]"]}
+
+  ;; Clojure specific versions
+  :1.7 {:override-deps {org.clojure/clojure {:mvn/version "1.7.0"}}}
+  :1.8 {:override-deps {org.clojure/clojure {:mvn/version "1.8.0"}}}
+  :1.9 {:override-deps {org.clojure/clojure {:mvn/version "1.9.0"}}}
+  ;; latest 1.10 is 1.10.3
+  :1.10 {:override-deps {org.clojure/clojure {:mvn/version "1.10.3"}}}
+  :1.10.0 {:override-deps {org.clojure/clojure {:mvn/version "1.10.0"}}}
+  :1.10.1 {:override-deps {org.clojure/clojure {:mvn/version "1.10.1"}}}
+  :1.10.2 {:override-deps {org.clojure/clojure {:mvn/version "1.10.2"}}}
+  ;; latest 1.11 is 1.11.1
+  :1.11 {:override-deps {org.clojure/clojure {:mvn/version "1.11.1"}}}
+  :1.11.0 {:override-deps {org.clojure/clojure {:mvn/version "1.11.0"}}}
+  ;; current 1.12 is alpha 4
+  :1.12 {:override-deps {org.clojure/clojure {:mvn/version "1.12.0-alpha4"}}}
+  ;; master is 1.12:
+  :master {:override-deps {org.clojure/clojure {:mvn/version "1.12.0-master-SNAPSHOT"}}}}}
