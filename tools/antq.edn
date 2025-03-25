@@ -3,4 +3,4 @@
 ;; clojure -Tantq outdated
 ;; clojure -Tantq outdated :upgrade true
 ;; clojure -Tantq outdated :check-clojure-tools true :upgrade true
-{:lib com.github.liquidz/antq, :coord {:git/tag "2.5.1109", :git/sha "fc4cb41"}}
+{:lib com.github.liquidz/antq, :coord {:git/tag "2.11.1269", :git/sha "9d78d7a"}}
