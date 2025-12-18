@@ -24,6 +24,18 @@
                        ;; :sign-key-id "C9E0916F64920CAE513CE3283BAB159D886263E1"
                        }}
 
+  ;; clj-new to create a new project: app, lib, or other template
+  ;; clojure -X:new-lib :name myname/myapp
+  ;; clojure -X:new-app :name myname/myapp
+  :new-app {:extra-deps {com.github.seancorfield/clj-new
+                         {:mvn/version "1.3.415"}}
+            :exec-fn clj-new/create
+            :exec-args {:template "app"}}
+  :new-lib {:extra-deps {com.github.seancorfield/clj-new
+                         {:mvn/version "1.3.415"}}
+            :exec-fn clj-new/create
+            :exec-args {:template "lib"}}
+
   ;; Check syntax and warn on reflection
   ;; lein check alternative for clj tools
   ;; https://github.com/athos/clj-check
@@ -43,7 +55,7 @@
   ;; https://github.com/cognitect-labs/test-runner
   ;; clj -X:test:runner
   :test {:extra-paths ["test" "src/test/clojure"]
-         :extra-deps {org.clojure/test.check {:mvn/version "RELEASE"}}}
+         :extra-deps {org.clojure/test.check {:mvn/version "RELEASE"}}}}
 
   :runner {:extra-deps {io.github.cognitect-labs/test-runner
                         {:git/tag "v0.5.1" :git/sha "dfb30dd"}}
@@ -85,15 +97,25 @@
   :1.7 {:override-deps {org.clojure/clojure {:mvn/version "1.7.0"}}}
   :1.8 {:override-deps {org.clojure/clojure {:mvn/version "1.8.0"}}}
   :1.9 {:override-deps {org.clojure/clojure {:mvn/version "1.9.0"}}}
-  ;; latest 1.10 is 1.10.3
+  ;; 1.10
   :1.10 {:override-deps {org.clojure/clojure {:mvn/version "1.10.3"}}}
   :1.10.0 {:override-deps {org.clojure/clojure {:mvn/version "1.10.0"}}}
   :1.10.1 {:override-deps {org.clojure/clojure {:mvn/version "1.10.1"}}}
   :1.10.2 {:override-deps {org.clojure/clojure {:mvn/version "1.10.2"}}}
-  ;; latest 1.11 is 1.11.1
-  :1.11 {:override-deps {org.clojure/clojure {:mvn/version "1.11.1"}}}
+  ;; 1.11
+  :1.11 {:override-deps {org.clojure/clojure {:mvn/version "1.11.4"}}}
   :1.11.0 {:override-deps {org.clojure/clojure {:mvn/version "1.11.0"}}}
-  ;; current 1.12.0
-  :1.12 {:override-deps {org.clojure/clojure {:mvn/version "1.12.0"}}}
-  ;; master is 1.12:
-  :master {:override-deps {org.clojure/clojure {:mvn/version "1.12.0-master-SNAPSHOT"}}}}}
+  :1.11.1 {:override-deps {org.clojure/clojure {:mvn/version "1.11.1"}}}
+  :1.11.2 {:override-deps {org.clojure/clojure {:mvn/version "1.11.2"}}}
+  :1.11.3 {:override-deps {org.clojure/clojure {:mvn/version "1.11.3"}}}
+  :1.11.4 {:override-deps {org.clojure/clojure {:mvn/version "1.11.4"}}}
+  ;; 1.12
+  :1.12 {:override-deps {org.clojure/clojure {:mvn/version "1.12.4"}}}
+  :1.12.0 {:override-deps {org.clojure/clojure {:mvn/version "1.12.0"}}}
+  :1.12.1 {:override-deps {org.clojure/clojure {:mvn/version "1.12.1"}}}
+  :1.12.2 {:override-deps {org.clojure/clojure {:mvn/version "1.12.2"}}}
+  :1.12.3 {:override-deps {org.clojure/clojure {:mvn/version "1.12.3"}}}
+  :1.12.4 {:override-deps {org.clojure/clojure {:mvn/version "1.12.4"}}}
+
+  ;; master is 1.12.4:
+  :master {:override-deps {org.clojure/clojure {:mvn/version "1.12.4-master-SNAPSHOT"}}}}
